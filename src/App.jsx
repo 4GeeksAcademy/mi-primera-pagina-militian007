@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react'
 function App() {
   const [datosViaje, setDatosViaje] = useState({ origen: '', destino: '', fecha: '', personas: '1 Persona' });
   const scrollRef = useRef(null);
-  const numeroCallCenter = "584120000000"; // Cambia por tu número real
+  const numeroCallCenter = "584148501150"; // Cambia por tu número real
 
   // Función para las flechas del carrusel
   const scroll = (direction) => {
@@ -23,13 +23,13 @@ function App() {
 
   // 7 Promos de Instagram (Data para el carrusel)
   const promosInstagram = [
-    { id: 1, titulo: "Pto. La Cruz", noches: "3 Noches", precio: "185", img: "https://images.unsplash.com/photo-1590233639477-51f83e26623d?q=80&w=500", tag: "Oferta" },
-    { id: 2, titulo: "Morrocoy Premium", noches: "2 Noches", precio: "220", img: "https://images.unsplash.com/photo-1589394815804-964ed9be2eb3?q=80&w=500", tag: "Full Day" },
-    { id: 3, titulo: "Mérida Nevada", noches: "4 Noches", precio: "350", img: "https://images.unsplash.com/photo-1627564143209-436406987c12?q=80&w=500", tag: "Aventura" },
-    { id: 4, titulo: "Isla de Coche", noches: "3 Noches", precio: "290", img: "https://images.unsplash.com/photo-1544945582-3b466dca8246?q=80&w=500", tag: "All Inclusive" },
-    { id: 5, titulo: "La Tortuga", noches: "2 Noches", precio: "195", img: "https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=500", tag: "Exclusivo" },
-    { id: 6, titulo: "Choroní Mágico", noches: "2 Noches", precio: "115", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=500", tag: "Relax" },
-    { id: 7, titulo: "Roraima Expedition", noches: "6 Noches", precio: "550", img: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=500", tag: "Trekking" },
+    { id: 1, titulo: "Pto. La Cruz", noches: "3 Noches", precio: "185", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUC98HMH9VF_-v_yDS_E6-bk60HwtA05Ha4w&s", tag: "Oferta" },
+    { id: 2, titulo: "Morrocoy Premium", noches: "2 Noches", precio: "220", img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxGiMLFYNXa3vgRQxHTp4yxQPrPt9aTwb3dE-YYP42j5X5pXkilJFPItp6XMghXKmG2yOOgREz5trRWVUPifdDctoEmZhznTkLcUbtQCbVvQ3n6y61B4LAfaNF1aOqjYocMGTSsLm3JxiKwHucL-QQGNVYzEjAcT7DRRmOxCXa7Oh2O2ZHvFO2tVdUMWbn/s1000/Parque-Nacional-Morrocoy-travel_turismo_venezuela.jpg", tag: "Full Day" },
+    { id: 3, titulo: "Mérida Nevada", noches: "4 Noches", precio: "350", img: "https://images.squarespace-cdn.com/content/v1/5d77a7f8ad30356d21445262/1580493463932-NSJ7M1XNO9K687IN3CPV/Pueblo-de-merida-venezuela.jpg?format=1000w", tag: "Aventura" },
+    { id: 4, titulo: "Isla de Coche", noches: "3 Noches", precio: "290", img: "https://www.felizviaje.com/wp-content/uploads/2020/08/coche4.jpg", tag: "All Inclusive" },
+    { id: 5, titulo: "La Tortuga", noches: "2 Noches", precio: "195", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ34bfjcPFgG2aVc6rET8cUirrWzo5vwZoSnA&s", tag: "Exclusivo" },
+    { id: 6, titulo: "Choroní Mágico", noches: "2 Noches", precio: "115", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiw607CMDpd92P46hYuetcq5FaAW33Pc59Pg&s", tag: "Relax" },
+    { id: 7, titulo: "Roraima Expedition", noches: "6 Noches", precio: "550", img: "https://www.hike-venezuela.com/media/roraima-north-large.jpg", tag: "Trekking" },
   ];
 
   return (
@@ -170,9 +170,9 @@ function App() {
           <div>
             <h4 className="text-lg font-bold mb-6 text-berkana-cyan">Contacto</h4>
             <ul className="text-gray-400 text-sm space-y-4 font-light">
-              <li><i className="fa-solid fa-location-dot mr-2"></i> Caracas, Venezuela</li>
-              <li><i className="fa-solid fa-phone mr-2"></i> +58 (412) 000-0000</li>
-              <li><i className="fa-solid fa-envelope mr-2"></i> info@viajesberkana.com</li>
+              <li><i className="fa-solid fa-location-dot mr-2"></i> Guayana, Venezuela</li>
+              <li><i className="fa-solid fa-phone mr-2"></i> +58 (414) 850-1150</li>
+              <li><i className="fa-solid fa-envelope mr-2"></i> viajesberkana@gmail.com</li>
             </ul>
           </div>
           <div>
