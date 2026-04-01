@@ -1,214 +1,194 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 
 function App() {
-  // CONFIGURACIÓN DE WHATSAPP
-  // Cambia el 584120000000 por el número real (incluyendo el código de país 58)
-  const whatsappLink = "https://wa.me/584148501150?text=Hola%20Viajes%20Berkana,%20deseo%20informaci%C3%B3n%20sobre%20sus%20paquetes%20tur%C3%ADsticos";
+  const [datosViaje, setDatosViaje] = useState({ origen: '', destino: '', fecha: '', personas: '1 Persona' });
+  const scrollRef = useRef(null);
+  const numeroCallCenter = "584120000000"; // Cambia por tu número real
+
+  // Función para las flechas del carrusel
+  const scroll = (direction) => {
+    const { current } = scrollRef;
+    if (direction === 'left') { current.scrollBy({ left: -350, behavior: 'smooth' }); }
+    else { current.scrollBy({ left: 350, behavior: 'smooth' }); }
+  };
+
+  // Envío a WhatsApp
+  const enviarCotizacion = (e) => {
+    e.preventDefault();
+    const { origen, destino, fecha } = datosViaje;
+    if(!origen || !destino || !fecha) { alert("Completa los datos para cotizar"); return; }
+    const mensaje = `Hola Viajes Berkana! 👋%0A%0AQuiero cotizar un viaje:%0A📍 *Origen:* ${origen}%0A🏁 *Destino:* ${destino}%0A📅 *Fecha:* ${fecha}`;
+    window.open(`https://wa.me/${numeroCallCenter}?text=${mensaje}`, '_blank');
+  };
+
+  // 7 Promos de Instagram (Data para el carrusel)
+  const promosInstagram = [
+    { id: 1, titulo: "Pto. La Cruz", noches: "3 Noches", precio: "185", img: "https://images.unsplash.com/photo-1590233639477-51f83e26623d?q=80&w=500", tag: "Oferta" },
+    { id: 2, titulo: "Morrocoy Premium", noches: "2 Noches", precio: "220", img: "https://images.unsplash.com/photo-1589394815804-964ed9be2eb3?q=80&w=500", tag: "Full Day" },
+    { id: 3, titulo: "Mérida Nevada", noches: "4 Noches", precio: "350", img: "https://images.unsplash.com/photo-1627564143209-436406987c12?q=80&w=500", tag: "Aventura" },
+    { id: 4, titulo: "Isla de Coche", noches: "3 Noches", precio: "290", img: "https://images.unsplash.com/photo-1544945582-3b466dca8246?q=80&w=500", tag: "All Inclusive" },
+    { id: 5, titulo: "La Tortuga", noches: "2 Noches", precio: "195", img: "https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=500", tag: "Exclusivo" },
+    { id: 6, titulo: "Choroní Mágico", noches: "2 Noches", precio: "115", img: "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=500", tag: "Relax" },
+    { id: 7, titulo: "Roraima Expedition", noches: "6 Noches", precio: "550", img: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=500", tag: "Trekking" },
+  ];
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* Navbar Superior */}
+      
+      {/* 1. NAVBAR COMPLETO */}
       <nav className="bg-white border-b border-gray-100 p-4 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto flex justify-between items-center">
+        <div className="container mx-auto flex justify-between items-center text-left">
           <div className="flex items-center gap-2">
             <i className="fa-solid fa-plane-departure text-berkana-cyan text-2xl"></i>
             <span className="text-2xl font-black text-berkana-cyan tracking-tighter">
               VIAJES<span className="text-berkana-dark">BERKANA</span>
             </span>
           </div>
-          
-          <ul className="hidden md:flex gap-8 text-gray-600 font-semibold uppercase text-xs tracking-widest">
+          <ul className="hidden md:flex gap-8 text-gray-600 font-bold uppercase text-[10px] tracking-widest">
             <li className="hover:text-berkana-cyan cursor-pointer transition">Inicio</li>
             <li className="hover:text-berkana-cyan cursor-pointer transition">Destinos</li>
             <li className="hover:text-berkana-cyan cursor-pointer transition">Promociones</li>
             <li className="hover:text-berkana-cyan cursor-pointer transition">Contacto</li>
           </ul>
-
-          {/* BOTÓN WHATSAPP REDIRECCIONABLE */}
-          <a 
-            href={whatsappLink}
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-[#25D366] text-white px-6 py-2 rounded-full font-bold hover:opacity-90 transition shadow-md text-sm flex items-center gap-2"
-          >
-            <i className="fa-brands fa-whatsapp text-lg"></i>
-            WhatsApp
+          <a href={`https://wa.me/${numeroCallCenter}`} target="_blank" className="bg-[#25D366] text-white px-6 py-2 rounded-full font-bold hover:opacity-90 transition shadow-md text-sm flex items-center gap-2">
+            <i className="fa-brands fa-whatsapp text-lg"></i> WhatsApp
           </a>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* 2. HERO CON BUSCADOR INTELIGENTE */}
       <header className="relative h-[500px] flex items-center justify-center overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000" 
-          className="absolute w-full h-full object-cover"
-          alt="Playa Principal"
-        />
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000" className="absolute w-full h-full object-cover" alt="Playa" />
         <div className="absolute inset-0 bg-black/20"></div>
-        
-        <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-5xl md:text-6xl font-black mb-4 drop-shadow-lg uppercase">
-            Tu aventura comienza aquí
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 font-light drop-shadow-md">
-            Expertos en destinos inolvidables.
-          </p>
-          
-          {/* Buscador */}
-          <div className="bg-white p-4 rounded-xl shadow-2xl max-w-4xl mx-auto text-gray-800">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-left">
-              <div className="flex flex-col border-b md:border-b-0 md:border-r border-gray-100 p-2">
-                <span className="text-[10px] font-bold text-berkana-cyan uppercase flex items-center gap-1">
-                  <i className="fa-solid fa-location-dot"></i> ¿A dónde?
-                </span>
-                <input type="text" placeholder="Destino" className="w-full outline-none text-sm p-1" />
-              </div>
-              <div className="flex flex-col border-b md:border-b-0 md:border-r border-gray-100 p-2">
-                <span className="text-[10px] font-bold text-berkana-cyan uppercase flex items-center gap-1">
-                  <i className="fa-solid fa-calendar-days"></i> Fecha
-                </span>
-                <input type="date" className="w-full outline-none text-sm p-1" />
-              </div>
-              <div className="flex flex-col p-2">
-                <span className="text-[10px] font-bold text-berkana-cyan uppercase flex items-center gap-1">
-                  <i className="fa-solid fa-user-group"></i> Personas
-                </span>
-                <select className="w-full outline-none text-sm bg-transparent p-1">
-                  <option>1 Persona</option>
-                  <option>2 Personas</option>
-                  <option>Familia</option>
-                </select>
-              </div>
-              <button className="bg-berkana-gold text-white font-black py-3 rounded-lg hover:bg-yellow-600 transition flex items-center justify-center gap-2">
-                <i className="fa-solid fa-magnifying-glass"></i>
-                BUSCAR VIAJE
-              </button>
+        <div className="relative z-10 text-center text-white px-4 w-full max-w-5xl">
+          <h1 className="text-5xl md:text-6xl font-black mb-4 uppercase drop-shadow-lg">Tu aventura comienza aquí</h1>
+          <form onSubmit={enviarCotizacion} className="bg-white p-4 rounded-xl shadow-2xl text-gray-800 mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 text-left">
+            <div className="flex flex-col border-b md:border-b-0 md:border-r border-gray-100 p-1">
+              <span className="text-[10px] font-bold text-berkana-cyan uppercase">Origen</span>
+              <input type="text" placeholder="Ciudad salida" className="outline-none text-sm font-semibold" onChange={(e) => setDatosViaje({...datosViaje, origen: e.target.value})} />
             </div>
-          </div>
+            <div className="flex flex-col border-b md:border-b-0 md:border-r border-gray-100 p-1">
+              <span className="text-[10px] font-bold text-berkana-cyan uppercase">Destino</span>
+              <input type="text" placeholder="¿A dónde vas?" className="outline-none text-sm font-semibold" onChange={(e) => setDatosViaje({...datosViaje, destino: e.target.value})} />
+            </div>
+            <div className="flex flex-col border-b md:border-b-0 md:border-r border-gray-100 p-1">
+              <span className="text-[10px] font-bold text-berkana-cyan uppercase">Fecha</span>
+              <input type="date" className="outline-none text-sm font-medium" onChange={(e) => setDatosViaje({...datosViaje, fecha: e.target.value})} />
+            </div>
+            <button type="submit" className="bg-berkana-gold text-white font-black py-3 rounded-lg hover:bg-yellow-600 transition shadow-lg">COTIZAR AHORA</button>
+          </form>
         </div>
       </header>
 
-      {/* Sección de Promociones */}
-      <section className="container mx-auto py-16 px-4 text-left">
-        <div className="flex justify-between items-end mb-10">
-          <div>
-            <span className="text-berkana-cyan font-bold uppercase tracking-widest text-sm italic">Ofertas del mes</span>
-            <h2 className="text-3xl md:text-4xl font-black text-berkana-dark">DESTINOS POPULARES</h2>
-          </div>
-          <button className="text-berkana-cyan font-bold border-b-2 border-berkana-cyan hover:text-berkana-dark transition">Ver todos</button>
+      {/* 3. CARRUSEL ESTILO TURASER (7 PROMOS INSTAGRAM) */}
+      <section className="py-16 bg-white relative">
+        <div className="container mx-auto px-4 mb-8 text-left">
+          <h2 className="text-3xl font-black text-gray-800 uppercase tracking-tighter">Flash Sales</h2>
+          <p className="text-berkana-cyan font-bold text-sm tracking-widest italic">@viajesberkana en Instagram</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1: Margarita */}
-          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
-            <div className="relative h-80 overflow-hidden rounded-2xl shadow-lg">
-              <img src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=1000" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Margarita" />
-              <div className="absolute top-4 right-4 bg-berkana-gold text-white px-4 py-1 rounded-full font-bold shadow-md text-xs">
-                Desde $199
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 text-white text-left">
-                <h3 className="text-2xl font-bold text-white">Isla de Margarita</h3>
-                <p className="text-sm opacity-90 font-light flex items-center gap-2 text-white">
-                  <i className="fa-solid fa-hotel text-xs"></i> Vuelo + Hotel + Traslados
-                </p>
-              </div>
-            </div>
-          </a>
+        <div className="container mx-auto px-4 relative group">
+          {/* Botones de Navegación */}
+          <button onClick={() => scroll('left')} className="absolute -left-2 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white shadow-xl rounded-full flex items-center justify-center text-gray-400 hover:text-berkana-cyan transition-all opacity-0 group-hover:opacity-100">
+            <i className="fa-solid fa-chevron-left text-xl"></i>
+          </button>
+          <button onClick={() => scroll('right')} className="absolute -right-2 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white shadow-xl rounded-full flex items-center justify-center text-gray-400 hover:text-berkana-cyan transition-all opacity-0 group-hover:opacity-100">
+            <i className="fa-solid fa-chevron-right text-xl"></i>
+          </button>
 
-          {/* Card 2: Los Roques */}
-          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
-            <div className="relative h-80 overflow-hidden rounded-2xl shadow-lg">
-              <img src="https://ospreyexpeditions.com/wp-content/uploads/2024/10/Venezuela-Los-Roques-Angel-Falls-Orinoco-Roraima-Caribbean-honeymoon-9.jpg" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Los Roques" />
-              <div className="absolute top-4 right-4 bg-berkana-cyan text-white px-4 py-1 rounded-full font-bold shadow-md text-xs">
-                Full Day
+          {/* Contenedor Scrollable */}
+          <div ref={scrollRef} className="flex overflow-x-auto gap-6 pb-10 no-scrollbar snap-x snap-mandatory scroll-smooth">
+            {promosInstagram.map((promo) => (
+              <div key={promo.id} className="min-w-[280px] md:min-w-[320px] snap-center">
+                <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg group/item cursor-pointer">
+                  <img src={promo.img} className="w-full h-full object-cover group-hover/item:scale-110 transition duration-700" alt={promo.titulo} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 p-6 flex flex-col justify-between text-left">
+                    <span className="bg-berkana-gold text-white text-[10px] font-black px-3 py-1 rounded-full self-start shadow-md uppercase">{promo.tag}</span>
+                    <div className="text-white">
+                      <p className="text-[10px] text-berkana-cyan font-bold uppercase tracking-widest mb-1 italic"><i className="fa-solid fa-clock"></i> {promo.noches}</p>
+                      <h3 className="text-2xl font-black mb-4 uppercase leading-tight">{promo.titulo}</h3>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-sm font-bold">US$</span>
+                        <span className="text-4xl font-black">{promo.precio}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 text-white text-left">
-                <h3 className="text-2xl font-bold text-white">Los Roques</h3>
-                <p className="text-sm opacity-90 font-light flex items-center gap-2 text-white">
-                  <i className="fa-solid fa-ship text-xs"></i> Experiencia Premium
-                </p>
-              </div>
-            </div>
-          </a>
-
-          {/* Card 3: Canaima */}
-          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
-            <div className="relative h-80 overflow-hidden rounded-2xl shadow-lg">
-              <img src="https://lirp.cdn-website.com/a109d03d/dms3rep/multi/opt/IMG_0145-min-640w.JPG" className="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Canaima" />
-              <div className="absolute top-4 right-4 bg-berkana-gold text-white px-4 py-1 rounded-full font-bold shadow-md text-xs">
-                Aventura
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 text-white text-left">
-                <h3 className="text-2xl font-bold text-white">Canaima</h3>
-                <p className="text-sm opacity-90 font-light flex items-center gap-2 text-white">
-                  <i className="fa-solid fa-mountain-sun text-xs"></i> Salto Ángel y Excursiones
-                </p>
-              </div>
-            </div>
-          </a>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-gray-900 text-white pt-16 pb-8">
-        <div className="container mx-auto px-4 text-left">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            {/* Columna 1: Info */}
-            <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center gap-2 mb-6">
-                <i className="fa-solid fa-plane-up text-berkana-cyan text-xl"></i>
-                <span className="text-2xl font-black text-berkana-cyan tracking-tighter">
-                  VIAJES<span className="text-white">BERKANA</span>
-                </span>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Hacemos realidad el viaje de tus sueños con la mejor asesoría y los destinos más exclusivos de Venezuela y el mundo.
-              </p>
-            </div>
-
-            {/* Columna 2: Enlaces */}
-            <div>
-              <h4 className="text-lg font-bold mb-6 border-b-2 border-berkana-cyan inline-block">Enlaces</h4>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li className="hover:text-berkana-cyan cursor-pointer transition">Sobre Nosotros</li>
-                <li className="hover:text-berkana-cyan cursor-pointer transition">Preguntas Frecuentes</li>
-                <li className="hover:text-berkana-cyan cursor-pointer transition">Términos y Condiciones</li>
-              </ul>
-            </div>
-
-            {/* Columna 3: Contacto */}
-            <div>
-              <h4 className="text-lg font-bold mb-6 border-b-2 border-berkana-cyan inline-block">Contacto</h4>
-              <ul className="space-y-3 text-sm text-gray-400">
-                <li className="flex items-center gap-2"><i className="fa-solid fa-location-dot text-berkana-cyan"></i> Caracas, Venezuela</li>
-                <li className="flex items-center gap-2"><i className="fa-solid fa-phone text-berkana-cyan"></i> +58 (412) 000-0000</li>
-                <li className="flex items-center gap-2"><i className="fa-solid fa-envelope text-berkana-cyan"></i> info@viajesberkana.com</li>
-              </ul>
-            </div>
-
-            {/* Columna 4: Redes */}
-            <div>
-              <h4 className="text-lg font-bold mb-6 border-b-2 border-berkana-cyan inline-block">Síguenos</h4>
-              <div className="flex gap-4 mb-6">
-                <a href="https://www.instagram.com/viajesberkana/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berkana-cyan transition cursor-pointer">
-                  <i className="fa-brands fa-instagram text-lg"></i>
-                </a>
-                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berkana-cyan transition cursor-pointer">
-                  <i className="fa-brands fa-facebook-f text-lg"></i>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berkana-cyan transition cursor-pointer">
-                  <i className="fa-brands fa-tiktok text-lg"></i>
-                </div>
-              </div>
-              <p className="text-xs text-gray-500 italic">Síguenos en @viajesberkana para ofertas diarias.</p>
+      {/* 4. DESTINOS DE LUJO ORIGINALES (Canaima, Roques, Margarita) */}
+      <section className="container mx-auto py-16 px-4 text-left">
+        <h2 className="text-3xl font-black text-berkana-dark mb-10 border-l-4 border-berkana-cyan pl-4 uppercase">Destinos de Lujo</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Margarita */}
+          <div className="relative h-[450px] overflow-hidden rounded-2xl shadow-xl group">
+            <img src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?q=80&w=1000" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Margarita" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white">
+              <h3 className="text-3xl font-black mb-2">Isla de Margarita</h3>
+              <p className="text-sm opacity-80 font-light italic">Vibrante y All Inclusive</p>
             </div>
           </div>
-
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs">
-            <p>© {new Date().getFullYear()} Viajes Berkana. Todos los derechos reservados.</p>
+          {/* Los Roques */}
+          <div className="relative h-[450px] overflow-hidden rounded-2xl shadow-xl group">
+            <img src="https://ospreyexpeditions.com/wp-content/uploads/2024/10/Venezuela-Los-Roques-Angel-Falls-Orinoco-Roraima-Caribbean-honeymoon-9.jpg" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Los Roques" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white">
+              <h3 className="text-3xl font-black mb-2">Los Roques</h3>
+              <p className="text-sm opacity-80 font-light italic">El paraíso turquesa</p>
+            </div>
+          </div>
+          {/* Canaima */}
+          <div className="relative h-[450px] overflow-hidden rounded-2xl shadow-xl group">
+            <img src="https://lirp.cdn-website.com/a109d03d/dms3rep/multi/opt/IMG_0145-min-640w.JPG" className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Canaima" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 text-white">
+              <h3 className="text-3xl font-black mb-2">Canaima</h3>
+              <p className="text-sm opacity-80 font-light italic">Tierra de Tepuyes</p>
+            </div>
           </div>
         </div>
+      </section>
+
+      {/* 5. FOOTER COMPLETO ORIGINAL */}
+      <footer className="bg-gray-900 text-white pt-20 pb-10 text-left">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-16 border-b border-gray-800 pb-16">
+          <div className="col-span-1">
+            <span className="text-2xl font-black text-berkana-cyan tracking-tighter mb-6 block">VIAJESBERKANA</span>
+            <p className="text-gray-400 text-sm leading-relaxed italic">Expertos en crear recuerdos inolvidables en los rincones más bellos de Venezuela y el mundo.</p>
+          </div>
+          <div>
+            <h4 className="text-lg font-bold mb-6 text-berkana-cyan">Información</h4>
+            <ul className="text-gray-400 text-sm space-y-4 font-light">
+              <li className="hover:text-white cursor-pointer transition">Sobre Nosotros</li>
+              <li className="hover:text-white cursor-pointer transition">Preguntas Frecuentes</li>
+              <li className="hover:text-white cursor-pointer transition">Términos y Condiciones</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-lg font-bold mb-6 text-berkana-cyan">Contacto</h4>
+            <ul className="text-gray-400 text-sm space-y-4 font-light">
+              <li><i className="fa-solid fa-location-dot mr-2"></i> Caracas, Venezuela</li>
+              <li><i className="fa-solid fa-phone mr-2"></i> +58 (412) 000-0000</li>
+              <li><i className="fa-solid fa-envelope mr-2"></i> info@viajesberkana.com</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-lg font-bold mb-6 text-berkana-cyan">Síguenos</h4>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berkana-cyan transition"><i className="fa-brands fa-instagram text-xl"></i></a>
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berkana-cyan transition"><i className="fa-brands fa-tiktok text-xl"></i></a>
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-berkana-cyan transition"><i className="fa-brands fa-facebook-f text-xl"></i></a>
+            </div>
+          </div>
+        </div>
+        <p className="text-center pt-10 text-gray-600 text-xs uppercase tracking-widest font-bold">
+          © {new Date().getFullYear()} Viajes Berkana. Hecho con pasión por el turismo.
+        </p>
       </footer>
+
     </div>
   )
 }
